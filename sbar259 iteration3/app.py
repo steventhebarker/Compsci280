@@ -1,5 +1,6 @@
-#ggg import mysql.connector
+import mysql.connector
 import Tkinter as tk
+from Tkinter import * 
 import ttk
 
 from drones import Drone, DroneStore
@@ -117,22 +118,20 @@ class DroneListWindow(ListWindow):
     def populate_data(self):
         """ Populates the data in the view. """
         print 'TODO: Load data'
-        #ggg cursor = self._conn.cursor()
-        # query='SELECT Drone.ID, Drone.Name, Drone.class_type, Drone.rescue,\
-        #     Operator.first_name, Operator.last_name FROM Drone \
-        #     LEFT JOIN Operator ON Drone.operatorID = Operator.id \
-        #     ORDER BY Drone.Name'
-        # cursor.execute(query)
-        # for(id,name, class_type, rescue, first_name, last_name) in cursor:
-        #     if last_name is not None:
-        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name+' '+last_name))
-        #     elif first_name is not None:
-        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name))
-        #     else:
-        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, '<None>'))
-        # cursor.close()
-
-        # The following is a dummy record - need to remove and replace with data from the store
+        cursor = self._conn.cursor()
+        query='SELECT Drone.ID, Drone.Name, Drone.class_type, Drone.rescue,\
+             Operator.first_name, Operator.last_name FROM Drone \
+             LEFT JOIN Operator ON Drone.operatorID = Operator.id \
+             ORDER BY Drone.Name'
+        cursor.execute(query)
+        for(id,name, class_type, rescue, first_name, last_name) in cursor:
+            if last_name is not None:
+                self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name+' '+last_name))
+            elif first_name is not None:
+                self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name))
+            else:
+                self.tree.insert('', 'end', values=(id, name, class_type, rescue, '<None>'))
+        cursor.close()
 
     def add_drone(self):
         """ Starts a new drone and displays it in the list. """
@@ -212,8 +211,8 @@ class DroneEditorWindow(EditorWindow):
     """ Editor window for drones. """
 
     def __init__(self, parent, drone, save_action):
-        # TODO: Add either the drone name or <new> in the window title, depending on whether this is a new
-        # drone or not
+        # TODO: Add either the drone name or <new> in the window title, depending on whether this is a
+        # new drone or not
         super(DroneEditorWindow, self).__init__(parent, 'Drone: ', self.save_drone)
         self._drone = drone
         self._save_action = save_action
@@ -223,7 +222,10 @@ class DroneEditorWindow(EditorWindow):
     def add_editor_widgets(self):
         """ Adds the widgets dor editing a drone. """
         print 'TODO: Create widgets and populate them with data'
-        return -1
+        print 'in DroneEditorWindow'
+        labelframe = LabelFrame(self.root, text="Drone <new>", padx=10, pady=10)
+        labelframe.pack(padx=10, pady=10)
+        return 1
 
     def save_drone(self):
         """ Updates the drone details and calls the save action. """
@@ -233,12 +235,11 @@ class DroneEditorWindow(EditorWindow):
 
 
 if __name__ == '__main__':
-    #ggg conn = mysql.connector.connect(user='sbar259',
-    #                                password='Labradoodle111',
-    #                                host='studdb-mysql.fos.auckland.ac.nz',
-    #                                database='stu_sbar259_COMPSCI_280_C_S2_2018',
-    #                                charset = 'utf8')
-    conn = '' #ggg
+    conn = mysql.connector.connect(user='sbar259',
+                                   password='Labradoodle111',
+                                   host='studdb-mysql.fos.auckland.ac.nz',
+                                   database='stu_sbar259_COMPSCI_280_C_S2_2018',
+                                   charset = 'utf8')
     app = Application(conn)
     app.main_loop()
     conn.close()

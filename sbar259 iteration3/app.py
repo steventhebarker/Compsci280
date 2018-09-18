@@ -1,4 +1,4 @@
-import mysql.connector
+#ggg import mysql.connector
 import Tkinter as tk
 import ttk
 
@@ -46,7 +46,6 @@ class Application(object):
         """ Display the drones. """
         wnd = DroneListWindow(self, self._conn)
         self.root.wait_window(wnd.root)
-
 
 class ListWindow(object):
     """ Base list window. """
@@ -118,23 +117,22 @@ class DroneListWindow(ListWindow):
     def populate_data(self):
         """ Populates the data in the view. """
         print 'TODO: Load data'
-        cursor = self._conn.cursor()
-        query='SELECT Drone.ID, Drone.Name, Drone.class_type, Drone.rescue,\
-            Operator.first_name, Operator.last_name FROM Drone \
-            LEFT JOIN Operator ON Drone.operatorID = Operator.id \
-            ORDER BY Drone.Name'
-        cursor.execute(query)
-        for(id,name, class_type, rescue, first_name, last_name) in cursor:
-            if last_name is not None:
-                self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name+' '+last_name))
-            elif first_name is not None:
-                self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name))
-            else:
-                self.tree.insert('', 'end', values=(id, name, class_type, rescue, '<None>'))
-        cursor.close()
+        #ggg cursor = self._conn.cursor()
+        # query='SELECT Drone.ID, Drone.Name, Drone.class_type, Drone.rescue,\
+        #     Operator.first_name, Operator.last_name FROM Drone \
+        #     LEFT JOIN Operator ON Drone.operatorID = Operator.id \
+        #     ORDER BY Drone.Name'
+        # cursor.execute(query)
+        # for(id,name, class_type, rescue, first_name, last_name) in cursor:
+        #     if last_name is not None:
+        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name+' '+last_name))
+        #     elif first_name is not None:
+        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, first_name))
+        #     else:
+        #         self.tree.insert('', 'end', values=(id, name, class_type, rescue, '<None>'))
+        # cursor.close()
 
         # The following is a dummy record - need to remove and replace with data from the store
-        self.tree.insert('', 'end', values=(1, 'Test', 1, 'No', '<None>'))
 
     def add_drone(self):
         """ Starts a new drone and displays it in the list. """
@@ -173,7 +171,6 @@ class DroneListWindow(ListWindow):
         wnd = DroneEditorWindow(self, drone, save_action)
         self.root.wait_window(wnd.root)
 
-
 class EditorWindow(object):
     """ Base editor window. """
 
@@ -185,25 +182,21 @@ class EditorWindow(object):
         self.root.transient(parent.root)
         self.root.grab_set()
 
-        #/////////////////////
         # Initialise the top level frame
         self.frame = tk.Frame(self.root)
         self.frame.pack(side=tk.TOP, fill=tk.BOTH,
                         expand=tk.Y, padx=10, pady=10)
 
         # Add the editor widgets
-        return_items = self.add_editor_widgets()
-        last_row = return_items[0]
-        labelFrame = return_items[1]
+        last_row = self.add_editor_widgets()
 
         # Add the command buttons
-        
-        add_button = tk.Button(labelFrame, text="Save",
+        add_button = tk.Button(self.frame, text="Save",
                                command=save_action, width=20, padx=5, pady=5)
-        add_button.grid(in_=labelFrame, row=last_row + 1, column=1, sticky=tk.E)
-        exit_button = tk.Button(labelFrame, text="Close",
+        add_button.grid(in_=self.frame, row=last_row + 1, column=1, sticky=tk.E)
+        exit_button = tk.Button(self.frame, text="Close",
                                 command=self.close, width=20, padx=5, pady=5)
-        exit_button.grid(in_= labelFrame, row=last_row + 2, column=1, sticky=tk.E)
+        exit_button.grid(in_=self.frame, row=last_row + 2, column=1, sticky=tk.E)
 
     def add_editor_widgets(self):
         """ Adds the editor widgets to the frame - this needs to be overriden in inherited classes. 
@@ -229,13 +222,8 @@ class DroneEditorWindow(EditorWindow):
 
     def add_editor_widgets(self):
         """ Adds the widgets dor editing a drone. """
-        print 'TODO: Create widgets and populate them with daa'
-        labelFrame =tk.LabelFrame(self.root, text = 'hello')
-        labelFrame.pack(fill = 'both', expand = 'yes')
-
-        insideLabel = tk.Label(labelFrame, text='inside the labelframe')
-        insideLabel.pack()
-        return [2,labelFrame]
+        print 'TODO: Create widgets and populate them with data'
+        return -1
 
     def save_drone(self):
         """ Updates the drone details and calls the save action. """
@@ -243,12 +231,14 @@ class DroneEditorWindow(EditorWindow):
         self._save_action(self._drone)
 
 
+
 if __name__ == '__main__':
-    conn = mysql.connector.connect(user='sbar259',
-                                   password='Labradoodle111',
-                                   host='studdb-mysql.fos.auckland.ac.nz',
-                                   database='stu_sbar259_COMPSCI_280_C_S2_2018',
-                                   charset = 'utf8')
+    #ggg conn = mysql.connector.connect(user='sbar259',
+    #                                password='Labradoodle111',
+    #                                host='studdb-mysql.fos.auckland.ac.nz',
+    #                                database='stu_sbar259_COMPSCI_280_C_S2_2018',
+    #                                charset = 'utf8')
+    conn = '' #ggg
     app = Application(conn)
     app.main_loop()
     conn.close()

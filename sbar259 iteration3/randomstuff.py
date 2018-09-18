@@ -244,3 +244,79 @@ if __name__ == '__main__':
             ORDER BY Drone.Name'
         cursor.execute(query)
         cursor.close()
+
+
+
+
+
+        
+class EditorWindow(object):
+    """ Base editor window. """
+
+    def __init__(self, parent, title, save_action):
+        # Initialise the new top-level window (modal dialog)
+        self._parent = parent.root
+        self.root = tk.Toplevel(parent.root)
+        self.root.title(title)
+        self.root.transient(parent.root)
+        self.root.grab_set()
+
+        #/////////////////////
+        # Initialise the top level frame
+        self.frame = tk.Frame(self.root)
+        self.frame.pack(side=tk.TOP, fill=tk.BOTH,
+                        expand=tk.Y, padx=10, pady=10)
+
+        # Add the editor widgets
+        return_items = self.add_editor_widgets()
+        last_row = return_items[0]
+        labelFrame = return_items[1]
+
+        # Add the command buttons
+        
+        add_button = tk.Button(labelFrame, text="Save",
+                               command=save_action, width=20, padx=5, pady=5)
+        add_button.grid(in_=labelFrame, row=last_row + 1, column=1, sticky=tk.E)
+        exit_button = tk.Button(labelFrame, text="Close",
+                                command=self.close, width=20, padx=5, pady=5)
+        exit_button.grid(in_= labelFrame, row=last_row + 2, column=1, sticky=tk.E)
+
+    def add_editor_widgets(self):
+        """ Adds the editor widgets to the frame - this needs to be overriden in inherited classes. 
+        This function should return the row number of the last row added - EditorWindow uses this
+        to correctly display the buttons. """
+        return -1
+
+    def close(self):
+        """ Closes the editor window. """
+        self.root.destroy()
+
+class DroneEditorWindow(EditorWindow):
+    """ Editor window for drones. """
+
+    def __init__(self, parent, drone, save_action):
+        # TODO: Add either the drone name or <new> in the window title, depending on whether this is a new
+        # drone or not
+        super(DroneEditorWindow, self).__init__(parent, 'Drone: ', self.save_drone)
+        self._drone = drone
+        self._save_action = save_action
+
+        # TODO: Load drone details
+
+    def add_editor_widgets(self):
+        """ Adds the widgets dor editing a drone. """
+        print 'TODO: Create widgets and populate them with daa'
+        labelFrame =tk.LabelFrame(self.root, text = 'hello')
+        labelFrame.pack(fill = 'both', expand = 'yes')
+
+        insideLabel = tk.Label(labelFrame, text='inside the labelframe')
+        insideLabel.pack()
+        return [2,labelFrame]
+
+    def save_drone(self):
+        """ Updates the drone details and calls the save action. """
+        print 'TODO: Update the drone from the widgets'
+        self._save_action(self._drone)
+
+
+        

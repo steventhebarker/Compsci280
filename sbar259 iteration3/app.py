@@ -137,7 +137,9 @@ class DroneListWindow(ListWindow):
         """ Starts a new drone and displays it in the list. """
         # Start a new drone instance
         print 'TODO: Start a new drone'
-        drone = None
+        print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        
+        drone = Drone()
 
         # Display the drone
         self.view_drone(drone, self._save_new_drone)
@@ -156,7 +158,6 @@ class DroneListWindow(ListWindow):
         # Load the drone from the store
         print 'TODO: Load drone with ID %04d' % (item_id)
         drone = None
-
         # Display the drone
         self.view_drone(drone, self._update_drone)
 
@@ -202,7 +203,6 @@ class EditorWindow(object):
         This function should return the row number of the last row added - EditorWindow uses this
         to correctly display the buttons. """
         return -1
-
     def close(self):
         """ Closes the editor window. """
         self.root.destroy()
@@ -223,11 +223,32 @@ class DroneEditorWindow(EditorWindow):
         """ Adds the widgets dor editing a drone. """
         print 'TODO: Create widgets and populate them with data'
         print 'in DroneEditorWindow'
-        labelframe = LabelFrame(self.root, text="Drone <new>", padx=10, pady=10)
-        labelframe.pack(padx=10, pady=10)
-        return 1
+ 
+        nameLabel = Label(self.frame, text="Name:")
+        nameLabel.grid(row=0, column=0)
+        droneClassLabel = Label(self.frame, text="Drone Class:")
+        droneClassLabel.grid(row=1, column=0)
+        rescueDroneLabel = Label(self.frame, text="Rescue Drone:")
+        rescueDroneLabel.grid(row=2, column=0)
 
-    def save_drone(self):
+        self._drone.name = Entry(self.frame, width=20)
+        self.drone.name.grid(row=0, column=1, padx=10, pady=10)
+        
+        droneClassVar = StringVar(self.frame)
+        droneClassVar.set("one") # default value
+        droneClassMenu = OptionMenu(self.frame, droneClassVar, "one", "two")
+        droneClassMenu.grid(row=1, column=1, sticky="ew", padx=10, pady=10)
+
+        rescueVar = StringVar(self.frame)
+        rescueVar.set("No") # default value
+        rescueMenu = OptionMenu(self.frame, rescueVar, "No", "Yes")
+        rescueMenu.grid(row=2, column=1, sticky="ew", padx=10, pady=10)
+
+        #wnd = DroneEditorWindow(self.root, Drone(nameEntry.get(), 1, True), self.save_drone)
+        
+        return 2
+    
+    def save_drone(self, ):
         """ Updates the drone details and calls the save action. """
         print 'TODO: Update the drone from the widgets'
         self._save_action(self._drone)

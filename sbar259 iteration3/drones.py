@@ -49,6 +49,10 @@ class DroneStore(object):
         drone_class = None
         name = None
         rescue = "False"
+        print args.name
+        print args.class_type
+        print args.rescue
+        '''
         for item in args:
             if item.startswith("-class="):
                 drone_class = int(item[-1])
@@ -81,7 +85,7 @@ class DroneStore(object):
         print "Added drone with ID %04d"%id
         cursor.execute(query)
         cursor.close()
-    
+        '''
     def update(self, args):
         """Updates characteristics of a drone"""
         #making sure a valid id was entered

@@ -223,8 +223,19 @@ class DroneEditorWindow(EditorWindow):
         """ Adds the widgets dor editing a drone. """
         print 'TODO: Create widgets and populate them with data'
         print 'in DroneEditorWindow'
-        labelframe = LabelFrame(self.root, text="Drone <new>", padx=10, pady=10)
-        labelframe.pack(padx=10, pady=10)
+
+        labelFrame = LabelFrame(self.root, text="Drone <new>", padx=10, pady=10)
+        labelFrame.pack(fill="both", expand="yes")
+
+        label = Label(labelFrame, text='inside the labelFrame')
+        label.pack()
+
+        add_button = tk.Button(labelFrame, text="Save",
+                               command=super().save_action, width=20, padx=5, pady=5)
+        add_button.pack()
+        exit_button = tk.Button(self.frame, text="Close",
+                                command=self.close, width=20, padx=5, pady=5)
+        exit_button.pack()
         return 1
 
     def save_drone(self):
